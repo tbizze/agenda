@@ -144,6 +144,40 @@ function cancelSave() {
           <div class="border-b mb-4"></div>
 
           <!-- LINHA 03 -->
+          <!-- Lista com os Grupos -->
+          <div class="md:flex gap-2 mb-6">
+            <!-- Label -->
+            <span class="pr-1 text-right text-sm w-1/5">Selecionar Grupo:</span>
+            <!-- Checkbox com os grupos -->
+            <div class="md:w-4/5 flex flex-wrap gap-3 items-center bg-gray-100 p-2 rounded-md">
+               
+              <div v-for="grupo in grupos" :key="grupo.id">
+                <fwb-radio v-model="form.evento_grupo_id" name="grupo" :label="grupo.nome" :value="grupo.id" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Linha divisora -->
+          <div class="border-b mb-4"></div>
+
+          <!-- LINHA 04 -->
+          <!-- Lista com os Locais -->
+          <div class="md:flex gap-2 mb-6">
+            <!-- Label -->
+            <span class="pr-1 text-right text-sm w-1/5">Selecionar Local:</span>
+            <!-- Checkbox com os locais -->
+            <div class="md:w-4/5 flex flex-wrap gap-3 items-center bg-gray-100 p-2 rounded-md">
+               
+              <div v-for="local in locais" :key="local.id">
+                <fwb-radio v-model="form.evento_local_id" name="local" :label="local.nome" :value="local.id" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Linha divisora -->
+          <div class="border-b mb-4"></div>
+
+          <!-- LINHA 05 -->
           <!-- Lista com as Áreas -->
           <div class="md:flex gap-2 mb-6">
             <!-- Label -->
@@ -163,41 +197,7 @@ function cancelSave() {
                 }}</label>
               </div>
             </div>
-          </div>
-
-          <!-- Linha divisora -->
-          <div class="border-b mb-4"></div>
-
-          <!-- LINHA 04 -->
-          <!-- Lista com os Grupos -->
-          <div class="md:flex gap-2 mb-6">
-            <!-- Label -->
-            <span class="pr-1 text-right text-sm w-1/5">Selecionar Grupo:</span>
-            <!-- Checkbox com os grupos -->
-            <div class="md:w-4/5 flex flex-wrap gap-3 items-center bg-gray-100 p-2 rounded-md">
-               
-              <div v-for="grupo in grupos" :key="grupo.id">
-                <fwb-radio v-model="form.evento_grupo_id" name="grupo" :label="grupo.nome" :value="grupo.id" />
-              </div>
-            </div>
-          </div>
-
-          <!-- Linha divisora -->
-          <div class="border-b mb-4"></div>
-
-          <!-- LINHA 05 -->
-          <!-- Lista com os Locais -->
-          <div class="md:flex gap-2 mb-6">
-            <!-- Label -->
-            <span class="pr-1 text-right text-sm w-1/5">Selecionar Local:</span>
-            <!-- Checkbox com os locais -->
-            <div class="md:w-4/5 flex flex-wrap gap-3 items-center bg-gray-100 p-2 rounded-md">
-               
-              <div v-for="local in locais" :key="local.id">
-                <fwb-radio v-model="form.evento_local_id" name="local" :label="local.nome" :value="local.id" />
-              </div>
-            </div>
-          </div>
+          </div>          
           
         </form>
       </template>
