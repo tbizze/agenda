@@ -81,7 +81,10 @@ class EventoController extends Controller
 
         // Busca os grupos para passar ao ListBox.
         // Renomeia coluna id=>value | nome=>label
-        $grupos = EventoGrupo::get(['id as value', 'nome as label']);
+        $grupos = EventoGrupo::orderBy('nome')->get(['id as value', 'nome as label']);
+        $grupos = EventoGrupo::orderBy('nome')->get(['id as value', 'nome as label']);
+        //$grupos = EventoGrupo::orderBy('nome')->pluck('nome','id')->dd();
+
         $locais = EventoLocal::get(['id as value', 'nome as label']);
         $meses = get_meses();
         
@@ -199,7 +202,7 @@ class EventoController extends Controller
     public function create()
     {
         //$grupos = EventoGrupo::get(['id as value', 'nome as label']);
-        $grupos = EventoGrupo::get(['id', 'nome']);
+        $grupos = EventoGrupo::orderBy('nome')->get(['id', 'nome']);
         $locais = EventoLocal::get(['id', 'nome']);
         $areas = EventoArea::get(['id', 'nome']);
 
@@ -250,7 +253,7 @@ class EventoController extends Controller
     public function edit(Evento $evento)
     {
         //$grupos = EventoGrupo::get(['id as value', 'nome as label']);
-        $grupos = EventoGrupo::get(['id', 'nome']);
+        $grupos = EventoGrupo::orderBy('nome')->get(['id', 'nome']);
         $locais = EventoLocal::get(['id', 'nome']);
         $areas = EventoArea::get(['id', 'nome']);
 
