@@ -203,7 +203,7 @@ items.forEach((item, index) => {
 
       <!-- #### Header e Body da Tabela -->
       <template #tabBody>
-        <table class="table table-compact">
+        <table class="table">
           <thead class="text-sm uppercase text-gray-700 bg-stone-200">
             <tr>
               <th class="p-2">Dia</th>
