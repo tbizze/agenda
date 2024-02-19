@@ -33,12 +33,27 @@ class Evento extends Model
      * É passado em um array os nomes das propriedades desejadas.
     */
     protected $appends = [
-        'dia_semana','nome_mes','numero_mes','numero_dia'
+        'dia_semana','nome_mes','numero_mes','numero_dia', 'start_date_full', 'all_day','color_event'
     ];
 
-    /**
-     * Interact with the user's first name.
-     */
+    protected function colorEvent(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->evento_local_id='1' ? 'red' : 'blue', 
+        );
+    }
+    protected function allDay(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !$this->start_time ? true : false, 
+        );
+    }
+    protected function startDateFull(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Carbon::parse($this->start_date)->format('Y-m-d') . ' ' . Carbon::parse($this->start_time)->format('H:i:s'),  //shortDayName  ou monthName
+        );
+    }
     protected function diaSemana(): Attribute
     {
         return Attribute::make(

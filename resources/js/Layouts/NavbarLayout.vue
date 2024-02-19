@@ -25,12 +25,13 @@ const menu_geral = [
 ];
 
 // MENU: EVENTOS
-const menu_pessoas = [
+const menu_eventos = [
   { href: "/evento-areas", label: "Áreas Eventos", icon: CalendarIcon, can: "Admin" },
   { href: "/evento-grupos", label: "Grupos Eventos", icon: CubeIcon, can: "Admin" },
   { href: "/evento-locals", label: "Locais Eventos", icon: ChartBarIcon, can: "Medio" },
   { href: "/eventos", label: "Eventos", icon: CalendarIcon, can: "Medio" },
   { href: "/eventos/view", label: "Eventos lista", icon: HeartIcon, can: "Medio" },
+  { href: "/eventos/calendar", label: "Calendário", icon: ChatIcon, can: "Medio" },
 ];
 
 // MENU: Perfil do usuário
@@ -66,7 +67,7 @@ const menu_perfil = [
   </div>
 
 
-  <!-- #### MENU: PESSOAS -->
+  <!-- #### MENU: EVENTOS -->
   <div class="mb-10">
     <!-- Label do Grupo -->
     <h3 class="mx-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
@@ -74,7 +75,7 @@ const menu_perfil = [
     </h3>
 
     <!-- Loop dos Links -->
-    <div v-for="(item, index) in menu_pessoas" :key="index">
+    <div v-for="(item, index) in menu_eventos" :key="index">
       <a :href="item.href" v-if="$page.props.auth.user.roles.includes(item.can)"
         class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 group">
         <component :is="item.icon" class="h-5 w-5 text-gray-300 mr-2 group-hover:text-gray-50" />

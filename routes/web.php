@@ -130,6 +130,7 @@ Route::middleware([
         'eventolocals' => 'eventoLocal'
     ]);
 
+    Route::get('eventos/calendar', [EventoController::class, 'calendar'])->name('eventos.calendar');
     Route::get('eventos/view', [EventoController::class, 'view'])->name('eventos.view');
     Route::resource('eventos', EventoController::class)
     /* ->parameters([
