@@ -44,7 +44,7 @@ class UpdateEventoRequest extends FormRequest
      * Usa o Trait 'RequestSanitizer'. 
      */
     protected $sanitizers = [
-        'nome' => ['CapitalizeEachWords','TrimDuplicateSpaces'],
+        'nome' => ['TrimDuplicateSpaces'], // removido: 'CapitalizeEachWords'
         'notas' => ['Capitalize'],
         'start_date' => ['DateToDb'],
         'end_date' => ['DateToDb'],

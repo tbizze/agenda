@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Evento;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Number;
 
@@ -32,5 +34,33 @@ class HomeController extends Controller
 
         //dd($var);
 
+    }
+
+    public function clone($id){
+        $post = Evento::find($id);
+        $newPost = $post->replicate();
+        $newPost->created_at = Carbon::now();
+        //$newPost->save();
+
+        dd($post,$newPost);
+
+    }
+
+    public function pdf() {
+        $data = [
+            [
+                'quantity' => 1,
+                'description' => '1 Year Subscription',
+                'price' => '129.00'
+            ]
+        ];
+        
+        $pdf = Pdf::loadView('pdfs.exemplo', ['data' => $data]);
+        //dd($pdf);
+
+        //$pdf = Pdf::loadView('pdfs.exemplo');
+     
+        //return $pdf->download('recibo.pdf');
+        return $pdf->stream('recibo.pdf');
     }
 }

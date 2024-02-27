@@ -36,7 +36,20 @@ Route::get('/', function () {
 /**
  * ROTAS DE TESTES:
  */
+//Route::get('/clone/{id}', [HomeController::class, 'clone'])->name('clone.test');
 Route::get('/tests', [HomeController::class, 'test'])->name('home.test');
+Route::get('/pdf1', [HomeController::class, 'pdf'])->name('pdf.test');
+Route::get('/pdf2', function(){
+    $data = [
+        [
+            'quantity' => 1,
+            'description' => '1 Year Subscription',
+            'price' => '129.00'
+        ]
+    ];
+    return view('pdfs.exemplo',['data' => $data]);
+});
+
 //Route::get('/tests/create', [HomeController::class, 'create'])->name('test.create');
 //Route::get('donations/{donation}/edit', [HomeController::class, 'edit'])->name('test.edit');
 
@@ -65,7 +78,7 @@ Route::middleware([
      * #### ATRIBUIÇÃO DE FUNÇÕES #########################
      */
     Route::prefix('admin/users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('admin.users');
+        Route::get('/', [UserController::class, 'index'])->name('admin.users.index');
         // Criar
         Route::get('/create', [UserController::class, 'create'])->name('admin.users.create');
         Route::post('/', [UserController::class, 'store'])->name('admin.users.store');
@@ -84,7 +97,7 @@ Route::middleware([
      * #### FUNÇÕES #########################
      */
     Route::prefix('admin/roles')->group(function () {
-        Route::get('/', [RoleController::class, 'index'])->name('admin.roles');
+        Route::get('/', [RoleController::class, 'index'])->name('admin.roles.index');
         // Criar
         Route::get('/create', [RoleController::class, 'create'])->name('admin.roles.create');
         Route::post('/', [RoleController::class, 'store'])->name('admin.roles.store');
@@ -99,7 +112,7 @@ Route::middleware([
      * #### PERMISSÕES #########################
      */
     Route::prefix('admin/permissions')->group(function () {
-        Route::get('/', [PermissionController::class, 'index'])->name('admin.permissions');
+        Route::get('/', [PermissionController::class, 'index'])->name('admin.permissions.index');
         // Criar
         Route::get('/create', [PermissionController::class, 'create'])->name('admin.permissions.create');
         Route::post('/', [PermissionController::class, 'store'])->name('admin.permissions.store');
@@ -130,8 +143,10 @@ Route::middleware([
         'eventolocals' => 'eventoLocal'
     ]);
 
+    Route::get('eventos/{evento}/replicate', [EventoController::class, 'replicate'])->name('eventos.replicate');
     Route::get('eventos/calendar', [EventoController::class, 'calendar'])->name('eventos.calendar');
     Route::get('eventos/view', [EventoController::class, 'view'])->name('eventos.view');
+    Route::get('eventos/pdf/{mes?}/{area?}', [EventoController::class, 'pdf'])->name('eventos.pdf')->where('area', '[0-9]+');
     Route::resource('eventos', EventoController::class)
     /* ->parameters([
         'eventolocais' => 'eventoLocal'

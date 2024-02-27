@@ -10,28 +10,29 @@ import {
   SearchIcon,
   ChartBarIcon,
 } from "@heroicons/vue/outline";
+import { Link } from '@inertiajs/vue3';
 
 /* Criando uma Matriz de valores para montar os menus */
 // MENU: Permissões
 const menu_configs = [
-  { href: "/admin/roles", label: "Funções", icon: ChatIcon, can: "Admin" },
-  { href: "/admin/permissions", label: "Permissões", icon: CubeIcon, can: "Admin" },
-  { href: "/admin/users", label: "Funções a usuários", icon: HeartIcon, can: "Admin" },
+  { href: "admin.roles.index", label: "Funções", icon: ChatIcon, can: "Admin" },
+  { href: "admin.permissions.index", label: "Permissões", icon: CubeIcon, can: "Admin" },
+  { href: "admin.users.index", label: "Funções a usuários", icon: HeartIcon, can: "Admin" },
 ];
 
-// MENU: Permissões
+// MENU: Geral
 const menu_geral = [
-  { href: "/dashboard", label: "Home", icon: HomeIcon, can: "Medio" },
+  { href: "dashboard", label: "Home", icon: HomeIcon, can: "Medio" },
 ];
 
 // MENU: EVENTOS
 const menu_eventos = [
-  { href: "/evento-areas", label: "Áreas Eventos", icon: CalendarIcon, can: "Admin" },
-  { href: "/evento-grupos", label: "Grupos Eventos", icon: CubeIcon, can: "Admin" },
-  { href: "/evento-locals", label: "Locais Eventos", icon: ChartBarIcon, can: "Medio" },
-  { href: "/eventos", label: "Eventos", icon: CalendarIcon, can: "Medio" },
-  { href: "/eventos/view", label: "Eventos lista", icon: HeartIcon, can: "Medio" },
-  { href: "/eventos/calendar", label: "Calendário", icon: ChatIcon, can: "Medio" },
+  { href: "evento-areas.index", partial:"/evento-areas", label: "Áreas Eventos", icon: CalendarIcon, can: "Admin" },
+  { href: "evento-grupos.index", partial:"/evento-grupos", label: "Grupos Eventos", icon: CubeIcon, can: "Admin" },
+  { href: "evento-locals.index", partial:"/evento-locals", label: "Locais Eventos", icon: ChartBarIcon, can: "Medio" },
+  { href: "eventos.index", partial:"/eventos", label: "Eventos", icon: CalendarIcon, can: "Medio" },
+  { href: "eventos.view", partial:"/eventos/view", label: "Eventos lista", icon: HeartIcon, can: "Medio" },
+  { href: "eventos.calendar", partial:"/eventos/calendar", label: "Calendário", icon: ChatIcon, can: "Medio" },
 ];
 
 // MENU: Perfil do usuário
@@ -50,7 +51,7 @@ const menu_perfil = [
 
 <template>
   <!-- #### MENU: GERAL -->
-  <div class="mb-10">
+  <div class="mb-7">
     <!-- Label do Grupo -->
     <h3 class="mx-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
       Geral
@@ -58,17 +59,20 @@ const menu_perfil = [
 
     <!-- Loop dos Links -->
     <div v-for="(item, index) in menu_geral" :key="index">
-      <a :href="item.href" v-if="$page.props.auth.user.roles.includes(item.can)"
-        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 group">
+      <Link :href="route(item.href)" 
+        v-if="$page.props.auth.user.roles.includes(item.can)"
+        :class="$page.url.startsWith('/dashboard') ? 'bg-gray-700' : ''"
+        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 focus:text-gray-400 active:scale-95 group">
+        
         <component :is="item.icon" class="h-5 w-5 text-gray-300 mr-2 group-hover:text-gray-50" />
         {{ item.label }}
-      </a>
+      </Link>
     </div>
   </div>
 
 
   <!-- #### MENU: EVENTOS -->
-  <div class="mb-10">
+  <div class="mb-7">
     <!-- Label do Grupo -->
     <h3 class="mx-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
       Eventos
@@ -76,17 +80,19 @@ const menu_perfil = [
 
     <!-- Loop dos Links -->
     <div v-for="(item, index) in menu_eventos" :key="index">
-      <a :href="item.href" v-if="$page.props.auth.user.roles.includes(item.can)"
-        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 group">
+      <Link :href="route(item.href)" 
+        v-if="$page.props.auth.user.roles.includes(item.can)"
+        :class="$page.url.startsWith(item.partial) ? 'bg-gray-700' : ''"
+        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 focus:text-gray-400 active:scale-95 group">
         <component :is="item.icon" class="h-5 w-5 text-gray-300 mr-2 group-hover:text-gray-50" />
-        {{ item.label }}
-      </a>
+        {{ item.label }} 
+      </Link>
     </div>
   </div>
 
 
   <!-- #### MENU CONFIGURAÇÕES -->
-  <div class="mb-10">
+  <div class="mb-7">
     <!-- Label do Grupo -->
     <h3 class="mx-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
       Sistema
@@ -94,11 +100,13 @@ const menu_perfil = [
 
     <!-- Loop dos Links -->
     <div v-for="(item, index) in menu_configs" :key="index">
-      <a :href="item.href" v-if="$page.props.auth.user.roles.includes(item.can)"
-        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 group">
+      <Link :href="route(item.href)" 
+        v-if="$page.props.auth.user.roles.includes(item.can)"
+        :class="route().current(item.href) ? 'bg-gray-700' : ''"
+        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 focus:text-gray-400 active:scale-95 group">
         <component :is="item.icon" class="h-5 w-5 text-gray-300 mr-2 group-hover:text-gray-50" />
         {{ item.label }}
-      </a>
+      </Link>
     </div>
   </div>
   

@@ -14,7 +14,7 @@ import BaseListbox from "@/Components/BizListBox.vue";
 
 import { SearchIcon, ArrowRightIcon } from "@heroicons/vue/solid";
 
-import { FwbModal } from 'flowbite-vue'
+import { FwbModal } from "flowbite-vue";
 import { ref } from "vue";
 
 const props = defineProps({
@@ -23,6 +23,7 @@ const props = defineProps({
   filters: Object,
   grupos: Object,
   locais: Object,
+  areas: Object,
   meses: Object,
 });
 
@@ -31,6 +32,7 @@ const form = useForm({
   //camp_valor: props.filters.camp_valor, */
   local_id: props.filters.local_id,
   grupo_id: props.filters.grupo_id,
+  area_id: props.filters.area_id,
   dia_mes: props.filters.dia_mes,
   search: props.filters.search,
   field: props.filters.field,
@@ -51,9 +53,52 @@ function actionAdd() {
  * Função para editar um registro.
  * Como parâmetro recebe o ID.
  */
-function actionEdit(id) {
-  router.get(route("eventos.edit", id));
+const link_pdf = ref("pdf/1");
+function actionPdf() {
+  if (!form.dia_mes) {
+    //router.get(route("eventos.pdf",form.dia_mes));
+    link_pdf.value = "pdf/1";
+  } else {
+    link_pdf.value = "pdf/" + form.dia_mes;
+    //console.log('ID:',link_pdf.value);
+  }
 }
+//const var_link = ref(var_mes + var_area);
+const var_mes = ref(null);
+const var_area = ref(null);
+function openLinkNewTab() {
+  if (form.dia_mes) {
+    var_mes.value = form.dia_mes;
+  }
+  if (form.area_id) {
+    var_area.value = form.area_id;
+  }
+
+  if (!form.dia_mes) {
+    const var_link = "pdf/";
+    window.open(var_link, '_blank');
+  }else if(form.dia_mes && !form.area_id){
+    const var_link = "pdf/" + var_mes.value;
+    window.open(var_link, '_blank');
+  }else if(form.dia_mes && form.area_id) {
+    const var_link = "pdf/" + var_mes.value +'/'+ var_area.value;
+    window.open(var_link, '_blank');
+  }
+}
+/* import { VueRouter  } from "vue-router";
+//const router = useRouter();
+let route = router.resolve({ name:'/link/to/page' , query: { param: 'param1' } });
+window.open(route.fullPath, "_blank"); */
+/* const link = document.createElement('a')
+  link.href = url
+  link.target = newTab ? '_blank' : ''
+  if (newTab) link.rel = 'noopener noreferrer' // IMPORTANT to add this
+  link.click() */
+/* import { useRouter } from '@inertiajs/vue3'
+const routers = useRouter();
+const routeData = routers.resolve({name: 'routeName', query: {data: "someData"}});
+window.open(routeData.href, '_blank'); */
+
 /**
  * Função para deletar um registro.
  * Como parâmetro recebe o ID.
@@ -107,6 +152,11 @@ onMounted(() => {
     string = string.map(Number); // alternativa seria usar =>  string.replace(/["]/g, '');   dentro da chave coloco o que será modificado.
     form.local_id = string;
   }
+  if (props.filters.area_id) {
+    let string = form.area_id;
+    string = string.map(Number); // alternativa seria usar =>  string.replace(/["]/g, '');   dentro da chave coloco o que será modificado.
+    form.area_id = string;
+  }
 });
 
 /* const parentItem = ref();
@@ -147,15 +197,12 @@ items.forEach((item, index) => {
       <BizButtonCreate
         @click.prevent="actionAdd"
         label="Cadastrar"
-        v-if="
-          $page.props.auth.user.permissions.includes('eventos.create')
-        "
+        v-if="$page.props.auth.user.permissions.includes('eventos.create')"
       />
     </template>
 
     <!-- #### START: Conteúdo da Página #### -->
     <SectionPageTable>
-      
       <!-- #### Header da Página -->
       <template #tabHeader>
         <div class="">
@@ -188,15 +235,29 @@ items.forEach((item, index) => {
               placeholder="Filtrar local.."
             />
             <BaseListbox
+              v-model="form.area_id"
+              :options="areas"
+              class="z-50 w-40"
+              multiple
+              placeholder="Filtrar área.."
+            />
+            <BaseListbox
               v-model="form.dia_mes"
               :options="meses"
               class="z-50 w-40"
               placeholder="Filtrar mês.."
-            /> 
+              @click="actionPdf()"
+            />
             <!-- Botão/Ícone para pesquisar -->
             <button class="btn rounded-md btn-sm">
               <component :is="ArrowRightIcon" class="h-4 w-4" />
             </button>
+            <!-- <button class="btn rounded-md btn-sm" @click.prevent="actionPdf()">
+              PDF
+            </button> -->
+            <!-- <a class="btn rounded-md btn-sm" :href="link_pdf" target="_blank">PDF</a> -->
+            <a class="btn rounded-md btn-sm" href="javascript:void(0)" @click="openLinkNewTab()">PDF</a>
+            
           </form>
         </div>
       </template>
@@ -221,12 +282,11 @@ items.forEach((item, index) => {
               :key="item.id"
               class="hover:bg-gray-100"
             >
-            
-              <td class="border-b w-7 p-2"> {{ item.numero_dia }} </td>
+              <td class="border-b w-7 p-2">{{ item.numero_dia }}</td>
               <!-- <td class="border-b w-7 p-2" v-if="item.var_dia" >{{ item.numero_dia }} </td>
               <td class="border-b w-7 p-2" v-else >  </td> -->
 
-              <td class="border-b w-7 p-2" >{{ item.dia_semana }} </td>
+              <td class="border-b w-7 p-2">{{ item.dia_semana }}</td>
               <!-- <td class="border-b w-7 p-2 border-r" v-if="item.var_dia" >{{ item.dia_semana }}</td>
               <td class="border-b w-7 p-2 border-r" v-else ></td> -->
 
@@ -235,13 +295,14 @@ items.forEach((item, index) => {
               <td class="border-b p-2 border-r">{{ item.to_grupo.nome }}</td>
               <td class="border-b p-2 border-r">{{ item.to_local.nome }}</td>
               <td class="border-b p-2 space-x-1">
-                <span v-for="area in item.areas"
+                <span
+                  v-for="area in item.areas"
                   :key="area.id"
-                  class="badge badge-ghost">
-                    {{ area.nome }}
+                  class="badge badge-ghost"
+                >
+                  {{ area.nome }}
                 </span>
               </td>
-
             </tr>
           </tbody>
         </table>

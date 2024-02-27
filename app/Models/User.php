@@ -7,6 +7,7 @@ namespace App\Models;
 use Cog\Laravel\Ban\Traits\Bannable;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -25,9 +26,12 @@ class User extends Authenticatable implements BannableInterface
     use Bannable; // Ban Pacote: p/ banir usuários.
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
+     * Habilita o recurso de apagar para Lixeira.
+     */
+    //use SoftDeletes;
+
+    /**
+     * Lista des campos em que é permitido a persistência no BD.. 
      */
     protected $fillable = [
         'name',

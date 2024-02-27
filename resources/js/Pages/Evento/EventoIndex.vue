@@ -7,6 +7,7 @@ import Pagination from "@/Components/Pagination.vue";
 
 import BizPageTitle from "../../Components/BizPageTitle.vue";
 import BizButtonCreate from "../../Components/BizButtonCreate.vue";
+import BizButtonCopy from "../../Components/BizButtonCopy.vue";
 import BizButtonEdit from "../../Components/BizButtonEdit.vue";
 import BizButtonDelete from "../../Components/BizButtonDelete.vue";
 import BizTheadOrder from "../../Components/BizTheadOrder.vue";
@@ -23,6 +24,7 @@ const props = defineProps({
   filters: Object,
   grupos: Object,
   locais: Object,
+  areas: Object,
   meses: Object,
 });
 
@@ -31,6 +33,7 @@ const form = useForm({
   //camp_valor: props.filters.camp_valor, */
   local_id: props.filters.local_id,
   grupo_id: props.filters.grupo_id,
+  area_id: props.filters.area_id,
   dia_mes: props.filters.dia_mes,
   search: props.filters.search,
   field: props.filters.field,
@@ -46,6 +49,13 @@ function submit() {
  */
 function actionAdd() {
   router.get(route("eventos.create"));
+}
+/**
+ * Função para clonar um registro.
+ * Como parâmetro recebe o ID.
+ */
+function actionCopy(id) {
+  router.get(route("eventos.replicate", id));
 }
 /**
  * Função para editar um registro.
@@ -101,11 +111,22 @@ onMounted(() => {
     let string = form.grupo_id;
     string = string.map(Number); // alternativa seria usar =>  string.replace(/["]/g, '');   dentro da chave coloco o que será modificado.
     form.grupo_id = string;
+
+    console.log(form.grupo_id)
   }
   if (props.filters.local_id) {
     let string = form.local_id;
     string = string.map(Number); // alternativa seria usar =>  string.replace(/["]/g, '');   dentro da chave coloco o que será modificado.
     form.local_id = string;
+
+    console.log(form.local_id)
+  }
+  if (props.filters.area_id) {
+    let string = form.area_id;
+    string = string.map(Number); // alternativa seria usar =>  string.replace(/["]/g, '');   dentro da chave coloco o que será modificado.
+    form.area_id = string;
+
+    console.log(form.area_id)
   }
 });
 </script>
@@ -161,6 +182,13 @@ onMounted(() => {
               class="z-50 w-40"
               multiple
               placeholder="Filtrar local.."
+            />
+            <BaseListbox
+              v-model="form.area_id"
+              :options="areas"
+              class="z-50 w-40"
+              multiple
+              placeholder="Filtrar área.."
             />
             <BaseListbox
               v-model="form.dia_mes"
@@ -237,7 +265,15 @@ onMounted(() => {
                     {{ area.nome }}
                 </span>
               </td>
-              <td class="border-b space-x-1 w-24 text-center">
+              <td class="border-b space-x-1 w-28 text-center">
+                <BizButtonCopy
+                  @click.prevent="actionCopy(item.id)"
+                  v-if="
+                    $page.props.auth.user.permissions.includes(
+                      'eventos.edit'
+                    )
+                  "
+                />
                 <BizButtonEdit
                   @click.prevent="actionEdit(item.id)"
                   v-if="

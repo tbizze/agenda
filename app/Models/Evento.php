@@ -9,11 +9,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Evento extends Model
 {
     use HasFactory;
 
+    /**
+     * Habilita o recurso de apagar para Lixeira.
+     */
+    use SoftDeletes;
+
+    /**
+     * Lista des campos em que é permitido a persistência no BD.. 
+     */
     protected $fillable = [
         'nome','notas','start_date','end_date','start_time','end_time','evento_grupo_id','evento_local_id'
     ];
@@ -100,7 +109,8 @@ class Evento extends Model
      */
     public function toGrupo(): BelongsTo
     {
-        return $this->belongsTo(EventoGrupo::class,'evento_grupo_id')->withDefault(['nome' => 'N/D']);
+        return $this->belongsTo(EventoGrupo::class,'evento_grupo_id')
+            ->withDefault(['nome' => 'N/D']);
     }
 
     /**
@@ -109,7 +119,8 @@ class Evento extends Model
      */
     public function toLocal(): BelongsTo
     {
-        return $this->belongsTo(EventoLocal::class,'evento_local_id')->withDefault(['nome' => 'N/D']);
+        return $this->belongsTo(EventoLocal::class,'evento_local_id')
+            ->withDefault(['nome' => 'N/D']);
     }
     
     /**
@@ -118,7 +129,9 @@ class Evento extends Model
      */
     public function areas(): BelongsToMany
     {
-        return $this->belongsToMany(EventoArea::class,'areas_eventos_pivot','evento_id','evento_area_id');
-            //->withTimestamps();
+        return $this->belongsToMany(EventoArea::class,'areas_eventos_pivot','evento_id','evento_area_id')
+            //->whereNull('areas_eventos_pivot.deleted_at')
+            //->withPivot(['deleted_at'])
+            ->withTimestamps();
     }
 }

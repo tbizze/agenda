@@ -39,11 +39,18 @@ const form = useForm({
 });
 
 /**
- * Função para submeter o formulário.
- * Persiste no BD.
+ * Função para submeter o formulário. Persiste no BD.
+ * Caso exista o 'form.id' => edição:: então submete à rota 'eventos.update'
+ * Se não existe o 'form.id' => clonagem:: então submete à rota 'eventos.update'
  */
 function submit() {
-  form.put(route("eventos.update", props.registro.id));
+  if (form.id){
+    form.put(route("eventos.update", props.registro.id));
+    //console.log('edit');
+  }else{
+    form.post(route("eventos.store"));
+    //console.log('create');
+  }
 }
 
 /**
