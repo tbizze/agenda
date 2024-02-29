@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                 : null,
             // Objeto para as Mensagens: 'danger', 'warning', 'success'
             'flash' => [
+                'info' => fn () => $request->session()->get('info'),
                 'success' => fn () => $request->session()->get('success'),
                 'warning' => fn () => $request->session()->get('warning'),
                 'danger' => fn () => $request->session()->get('danger'),

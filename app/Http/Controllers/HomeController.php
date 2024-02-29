@@ -63,4 +63,22 @@ class HomeController extends Controller
         //return $pdf->download('recibo.pdf');
         return $pdf->stream('recibo.pdf');
     }
+
+    public function alert($id){
+        //dd($id);
+        switch ($id) {
+            case 'info':
+                return redirect()->route('dashboard')->with('info', 'Documentos abertos para conferência!');
+                break;
+            case 'success':
+                return redirect()->route('eventos.index')->with('success', 'Registro criado com sucesso!');
+                break;
+            case 'danger':
+                return redirect()->route('eventos.index')->with('danger', 'Aconteceu um erro na aplicação. Falar com suporte!');
+                break;
+            case 'warning':
+                return redirect()->route('eventos.index')->with('warning', 'Inconsistências foram descobertas!');
+                break;
+        };
+    }
 }

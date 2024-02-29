@@ -34,7 +34,7 @@ function submit() {
  * Volta para a listagem.
  */
 function cancelSave() {
-  router.get(route("admin.users"));
+  router.get(route("admin.users.index"));
 }
 </script>
 <template>

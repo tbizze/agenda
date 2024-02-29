@@ -100,8 +100,8 @@ class EventoController extends Controller
 
     public function view(Request $request)
     {
-        $trashed = EventoGrupo::onlyTrashed()->get()->dd();
-        dd(Evento::with(['areas','toGrupo'])->get());
+        //$trashed = EventoGrupo::onlyTrashed()->get()->dd();
+        //dd(Evento::with(['areas','toGrupo'])->get());
 
         // 1) Valida os dados submetidos
         $request->validate([

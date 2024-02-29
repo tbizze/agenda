@@ -30,7 +30,7 @@ const form = useForm({
  * Função para submeter o formulário de pesquisa.
  */
 function submit() {
-  router.get(route("admin.users"), form);
+  router.get(route("admin.users.index"), form);
 }
 
 /**

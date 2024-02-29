@@ -11,6 +11,8 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import NavbarLayout from "@/Layouts/NavbarLayout.vue";
 import ToastList from '@/Components/ToastList.vue';
 
+import Alerts from '@/Components/Bizze/Alerts.vue'
+
 
 defineProps({
     title: String,
@@ -35,12 +37,33 @@ const showSidebar = ref(false);
 
 <template>
     <!-- ### SEÇÃO: Mensagens de alerta Toast -->
-    <ToastList/>
+    <!-- <ToastList/> -->
+    <!-- <Alerts v-if="$page.props.flash.isArray()"> -->
+    <Alerts >
+    </Alerts>
+    <!-- <div class=" bg-emerald-400 rounded p-4 text-sm fixed top-5 max-w-xs  z-10">
+      <Link
+        :href="route('home.alert','success')"
+        class="px-3 py-2 bg-stone-200 rounded-md font-black"
+        >Success</Link
+      >
+      <Link
+        :href="route('home.alert','danger')"
+        class="px-3 py-2 bg-stone-200 rounded-md font-black"
+        >Danger</Link
+      >
+      <Link
+        :href="route('home.alert','info')"
+        class="px-3 py-2 bg-stone-200 rounded-md font-black"
+        >Info</Link
+      >
+      {{ $page.props.flash }}
+    </div> -->
 
     <div class="flex min-h-screen">
         <!-- <div class="w-64 py-5 px-3 bg-gray-800 border-r border-gray-700"> -->
         <div 
-        :class="showSidebar ? 'relative -translate-x-1 ' : '' "
+        :class="showSidebar ? 'relative -translate-x-2 ' : '' "
         class="w-64 py-5 px-3 bg-gray-800 border-r border-gray-700 absolute inset-y-0 left-0 md:relative md:translate-x-0 transform -translate-x-full transition duration-200 ease-in-out">
             <div class="mb-2">
                 <a href="/" class="w-full flex p-2 gap-2">

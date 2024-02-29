@@ -37,6 +37,7 @@ Route::get('/', function () {
  * ROTAS DE TESTES:
  */
 //Route::get('/clone/{id}', [HomeController::class, 'clone'])->name('clone.test');
+Route::get('/modal/{id}', [HomeController::class, 'alert'])->name('home.alert');
 Route::get('/tests', [HomeController::class, 'test'])->name('home.test');
 Route::get('/pdf1', [HomeController::class, 'pdf'])->name('pdf.test');
 Route::get('/pdf2', function(){

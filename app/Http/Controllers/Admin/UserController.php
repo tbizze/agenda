@@ -29,11 +29,11 @@ class UserController extends Controller
         if (!$user->isBanned()){
             $user->ban();
         } else {
-            return redirect()->route('admin.users')->with('danger', 'O usuário já estava banido!');
+            return redirect()->route('admin.users.index')->with('danger', 'O usuário já estava banido!');
         }
 
         // Redireciona para index.
-        return redirect()->route('admin.users')->with('success', 'Usuário banido com sucesso!');
+        return redirect()->route('admin.users.index')->with('success', 'Usuário banido com sucesso!');
     }
 
     /**
@@ -47,10 +47,10 @@ class UserController extends Controller
         if ($user->isBanned()){
             $user->unban();
         } else {
-            return redirect()->route('admin.users')->with('danger', 'O usuário não estava banido!');
+            return redirect()->route('admin.users.index')->with('danger', 'O usuário não estava banido!');
         }
         // Redireciona para index.
-        return redirect()->route('admin.users')->with('success', 'Usuário foi desbloqueado com sucesso!');
+        return redirect()->route('admin.users.index')->with('success', 'Usuário foi desbloqueado com sucesso!');
     }
 
     /**
