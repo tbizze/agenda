@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:admin.users')->only('index');
+        $this->middleware('can:admin.users.index')->only('index');
         $this->middleware('can:admin.users.create')->only('create','store');
         $this->middleware('can:admin.users.edit')->only('edit','update');
         $this->middleware('can:admin.users.delete')->only('destroy');
@@ -168,7 +168,7 @@ class UserController extends Controller
         //$input = $request->validated();
 
         // Redireciona para index.
-        return redirect()->route('admin.users')->with('success', 'Funções atribuída a usuário com sucesso!');;
+        return redirect()->route('admin.users.index')->with('success', 'Funções atribuída a usuário com sucesso!');;
     }
 
     /**

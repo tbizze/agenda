@@ -14,7 +14,7 @@ class PermissionController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:admin.permissions')->only('index');
+        $this->middleware('can:admin.permissions.index')->only('index');
         $this->middleware('can:admin.permissions.create')->only('create','store');
         $this->middleware('can:admin.permissions.edit')->only('edit','update');
         $this->middleware('can:admin.permissions.delete')->only('destroy');
@@ -106,7 +106,7 @@ class PermissionController extends Controller
         }        
 
         // Redireciona para index.
-        return redirect()->route('admin.permissions');
+        return redirect()->route('admin.permissions.index');
     }
 
     /**
@@ -169,7 +169,7 @@ class PermissionController extends Controller
 
 
         // Redireciona para index.
-        return redirect()->route('admin.permissions')->with('success', 'Permissão salva com sucesso!');
+        return redirect()->route('admin.permissions.index')->with('success', 'Permissão salva com sucesso!');
     }
 
     /**

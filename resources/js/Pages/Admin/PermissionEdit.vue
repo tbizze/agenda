@@ -36,7 +36,7 @@ function submit() {
  * Volta para a listagem.
  */
 function cancelSave() {
-  router.get(route("admin.permissions"));
+  router.get(route("admin.permissions.index"));
 }
 </script>
 <template>

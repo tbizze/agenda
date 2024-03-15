@@ -41,7 +41,7 @@ function submit() {
  * Volta para a listagem.
  */
 function cancelSave() {
-  router.get(route("admin.roles"));
+  router.get(route("admin.roles.index"));
 }
 </script>
 <template>

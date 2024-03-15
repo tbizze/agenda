@@ -256,6 +256,7 @@ items.forEach((item, index) => {
               PDF
             </button> -->
             <!-- <a class="btn rounded-md btn-sm" :href="link_pdf" target="_blank">PDF</a> -->
+            <!-- Botão para Abrir PDF -->
             <a class="btn rounded-md btn-sm" href="javascript:void(0)" @click="openLinkNewTab()">PDF</a>
             
           </form>

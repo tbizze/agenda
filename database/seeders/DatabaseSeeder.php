@@ -27,10 +27,12 @@ class DatabaseSeeder extends Seeder
             //UserSeeder::class,          // criar usuários
             
             // Módulo Pessoas.
-            EventoGrupoSeeder::class,
+            /* EventoGrupoSeeder::class,
             EventoAreaSeeder::class,
             EventoLocalSeeder::class,
-            //EventoSeeder::class,
+            EventoSeeder::class, */
+
+            ReciboSeeder::class,
 
 
         ]);

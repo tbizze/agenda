@@ -8,6 +8,7 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\EventoGrupoController;
 use App\Http\Controllers\EventoLocalController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReciboController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -152,6 +153,9 @@ Route::middleware([
     /* ->parameters([
         'eventolocais' => 'eventoLocal'
     ]) */;
+    Route::get('recibos/{recibo}/replicate', [ReciboController::class, 'replicate'])->name('recibos.replicate');
+    Route::get('recibos/{recibo}/pdf', [ReciboController::class, 'pdf'])->name('recibos.pdf');
+    Route::resource('recibos', ReciboController::class);
 });
 
 

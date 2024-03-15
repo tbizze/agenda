@@ -13,7 +13,7 @@ class RoleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:admin.roles')->only('index');
+        $this->middleware('can:admin.roles.index')->only('index');
         $this->middleware('can:admin.roles.create')->only('create','store');
         $this->middleware('can:admin.roles.edit')->only('edit','update');
         $this->middleware('can:admin.roles.delete')->only('destroy');
@@ -142,7 +142,7 @@ class RoleController extends Controller
         //$lctoGrupo->save($input);
 
         // Redireciona para index.
-        return redirect()->route('admin.roles')->with('success', 'Permissões atribuídas a usuário com sucesso!');
+        return redirect()->route('admin.roles.index')->with('success', 'Permissões atribuídas a usuário com sucesso!');
     }
 
     /**

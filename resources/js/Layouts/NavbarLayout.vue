@@ -35,6 +35,11 @@ const menu_eventos = [
   { href: "eventos.calendar", partial:"/eventos/calendar", label: "Calendário", icon: ChatIcon, can: "Medio" },
 ];
 
+// MENU: EVENTOS
+const menu_recibos = [
+  { href: "recibos.index", partial:"/recibos", label: "Recibos", icon: CalendarIcon, can: "Admin" },
+];
+
 // MENU: Perfil do usuário
 const menu_perfil = [
   {
@@ -80,6 +85,26 @@ const menu_perfil = [
 
     <!-- Loop dos Links -->
     <div v-for="(item, index) in menu_eventos" :key="index">
+      <Link :href="route(item.href)" 
+        v-if="$page.props.auth.user.roles.includes(item.can)"
+        :class="$page.url.startsWith(item.partial) ? 'bg-gray-700' : ''"
+        class="flex items-center p-2 text-base text-gray-300 rounded-lg transition duration-75 hover:text-gray-50 hover:bg-gray-700 focus:text-gray-400 active:scale-95 group">
+        <component :is="item.icon" class="h-5 w-5 text-gray-300 mr-2 group-hover:text-gray-50" />
+        {{ item.label }} 
+      </Link>
+    </div>
+  </div>
+
+
+  <!-- #### MENU: RECIBOS -->
+  <div class="mb-7">
+    <!-- Label do Grupo -->
+    <h3 class="mx-2 mb-2 text-xs text-gray-400 uppercase tracking-widest">
+      Eventos
+    </h3>
+
+    <!-- Loop dos Links -->
+    <div v-for="(item, index) in menu_recibos" :key="index">
       <Link :href="route(item.href)" 
         v-if="$page.props.auth.user.roles.includes(item.can)"
         :class="$page.url.startsWith(item.partial) ? 'bg-gray-700' : ''"

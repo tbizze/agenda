@@ -2,6 +2,7 @@
 
 use App\Helpers\Classes\Format;
 use App\Helpers\Classes\Mask;
+use App\Helpers\Classes\Numeral;
 use App\Helpers\Classes\Sanitize;
 use App\Helpers\Classes\Validate;
 
@@ -37,7 +38,7 @@ if (!function_exists('currency_get_db')) {
     function currency_get_db(
         float|string $number,
         int $decimals = 2,
-        string $thousandSeparator = ''
+        string $thousandSeparator = '.'
     ): string {
         // Se existe $number e for diferente de 0, então mascara.
         if ($number && $number <> 0) {
@@ -46,6 +47,27 @@ if (!function_exists('currency_get_db')) {
         // Caso $number é null ou = 0, retorna vazio.
         return '';
 
+    }
+}
+
+if (!function_exists('currency_extenso')) {
+    /**
+     * Formatar moeda do BD para moeda brasileira.
+     *
+     * @param string|float $number Número a formatar
+     * @param int $decimals [optional] Número de casas decimais (default: 2)
+     * @param int $thousandSeparator [optional] Separador de milhar (default: '')
+     *
+     * @return string Número formatado
+     */
+    function currency_extenso($number): string 
+    {
+        // Se existe $number e for diferente de 0, então mascara.
+        if ($number && $number <> 0) {
+            return Numeral::currencyToExtenso($number);
+        }
+        // Caso $number é null ou = 0, retorna vazio.
+        return '';
     }
 }
 
@@ -79,6 +101,26 @@ if (! function_exists('mask_phone')) {
             return Mask::phone($phone);
         }
         // Caso $phone é null, retorna vazio.
+        return '';
+    }
+}
+
+if (! function_exists('mask_cpf_cnpj')) {
+    /**
+     * Formatar CPF/CNPJ para FrontEnd.
+     *
+     * @param string $cpf_cnpj Valor a formatar
+     *
+     * @return string Valor formatado
+     */
+    function mask_cpf_cnpj($cpf_cnpj): string
+    {
+        if (strlen($cpf_cnpj) == 14) {
+            return Mask::cnpj($cpf_cnpj);
+        }elseif (strlen($cpf_cnpj) == 11) {
+            return Mask::cpf($cpf_cnpj);
+        }
+        // Caso $cpf_cnpj é null, retorna vazio.
         return '';
     }
 }
